@@ -10,6 +10,9 @@ public class UserService {
 	private UserDao userDao;
 	
 	public void createUser() {
+//		if ( 1==1){
+//			throw new RuntimeException("用户已存在！");
+//		}
 		System.out.println(new Date());
 		System.out.println("UserService执行创建用户业务逻辑");
 		userDao.insert();

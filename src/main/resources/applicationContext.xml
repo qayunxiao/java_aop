@@ -24,10 +24,17 @@
         <!-- 切点 使用execution表达式描述切面的作用范围-->
         <!-- execution(public * com.alvin..*说明切面作用com.alvin包下的所有类和所有方法 -->
         <aop:pointcut id ="pointcut" expression = "execution(public * com.alvin..*.*(..))"></aop:pointcut>
+<!--        <aop:pointcut id ="pointcut" expression = "execution(public * com.alvin..*Service.*(..))"></aop:pointcut>-->
+<!--                <aop:pointcut id ="pointcut" expression = "execution(String  com.alvin..*Service.*(..))"></aop:pointcut>-->
+<!--                <aop:pointcut id ="pointcut" expression = "execution(public * com.alvin..*Service.create(..))"></aop:pointcut>-->
+
         <!-- 定义切面类，要不然按照bean运行了-->
         <aop:aspect ref="methodAspect">
             <!-- before通知，代表目标方法运行之前先执行methodAspect.printExecutionTime()-->
             <aop:before method="printExecutionTime" pointcut-ref="pointcut"/>
+            <aop:after-throwing method="doAferThrowing"  throwing="th"  pointcut-ref="pointcut" />
+            <aop:after method="doAfter" pointcut-ref="pointcut"/>
+            <aop:after-returning method="doAfterReturning"  returning="ret" pointcut-ref="pointcut"/>
         </aop:aspect>
     </aop:config>
 

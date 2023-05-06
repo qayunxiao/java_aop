@@ -23,6 +23,16 @@ public class MethodAspect {
 		}
 		
 	}
-	
 
+	public void doAfter(JoinPoint joinPoint){
+		System.out.println("doAfter alter ...");
+	}
+
+	public void doAfterReturning(JoinPoint joinPoint,Object ret) {
+		System.out.println("返回后通知:" + ret);
+	}
+
+	public void doAferThrowing(JoinPoint joinPoint,Throwable th ){
+		System.out.println("doAferThrowing = " + th);
+	}
 }
