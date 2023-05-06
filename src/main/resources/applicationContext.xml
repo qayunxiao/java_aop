@@ -4,20 +4,33 @@
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
-        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd">
     <!-- bean definitions here -->    
- <bean id="userDao" class="com.alvin.spring.aop.dao.UserDao"/>     
- <bean id="employeeDao" class="com.alvin.spring.aop.dao.EmployeeDao"/>     
- <bean id="userService" class="com.alvin.spring.aop.service.UserService">
-  <property name="userDao" ref="userDao"/>     
- </bean>
- <bean id="employeeService" class="com.alvin.spring.aop.service.EmployeeService">
-  <property name="employeeDao" ref="employeeDao"/>     
- </bean>
+	 <bean id="userDao" class="com.alvin.spring.aop.dao.UserDao"/>     
+	 <bean id="employeeDao" class="com.alvin.spring.aop.dao.EmployeeDao"/>     
+	 <bean id="userService" class="com.alvin.spring.aop.service.UserService">
+	  <property name="userDao" ref="userDao"/>     
+	 </bean>
+	 <bean id="employeeService" class="com.alvin.spring.aop.service.EmployeeService">
+	  <property name="employeeDao" ref="employeeDao"/>     
+	 </bean>
+    <!-- AOP配置 作用范围 aop运行在ioc容器中 需要实例化bean -->
+    <bean id="methodAspect" class="com.alvin.spring.aop.aspect.MethodAspect"></bean>
+    <aop:config>
+        <!-- 切点 使用execution表达式描述切面的作用范围-->
+        <!-- execution(public * com.alvin..*说明切面作用com.alvin包下的所有类和所有方法 -->
+        <aop:pointcut id ="pointcut" expression = "execution(public * com.alvin..*.*(..))"></aop:pointcut>
+        <!-- 定义切面类，要不然按照bean运行了-->
+        <aop:aspect ref="methodAspect">
+            <!-- before通知，代表目标方法运行之前先执行methodAspect.printExecutionTime()-->
+            <aop:before method="printExecutionTime" pointcut-ref="pointcut"/>
+        </aop:aspect>
+    </aop:config>
 
-   
+
+
 </beans>
